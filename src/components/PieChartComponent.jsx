@@ -3,6 +3,8 @@ import { Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
 
 const PieChartComponent = ({phonevalues}) => {
+
+
   
   const chartData = {
     labels: ['Out of Stock', 'Limited Stock', 'In Stock'],

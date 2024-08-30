@@ -5,6 +5,8 @@ import Summary from './Summary'
 import PieChartComponent from './PieChartComponent'
 import Spinner from './Spinner'
 import Table from './Table'
+import Add from '../assets/add.png'
+import Create from './Create'
 
 
 
@@ -15,6 +17,9 @@ function Dashboard() {
   const [loading, setLoading] = useState(false)
   const token = localStorage.getItem('authToken')
   const [phonevalues, setPhoneValues] = useState()
+  const [createModal, setCreateModal] = useState(false)
+  
+ 
 
   const handleSetPhoneValues = useCallback((values) => {
     setPhoneValues(values);
@@ -71,6 +76,7 @@ function Dashboard() {
               <h3>Mrs Faye Richardson</h3>
             </div>
         </div>
+        
 
         <div className='flex items-start justify-between '>
           <div className=' w-[950px] h-[calc(100vh - 319px)]'>
@@ -83,8 +89,20 @@ function Dashboard() {
 
           </div>
 
-          <PieChartComponent phonevalues={phonevalues}/>
+          <div>
+            <div className='flex justify-end p-1 mb-5 cursor-pointer' onClick={() => setCreateModal(true)}><span className='bg-[#3869EB] text-white px-5 py-1 flex items-center justify-between rounded'><img src={Add} alt="add icon" width={20} className='mr-2' />Create Item</span></div>
+            <PieChartComponent phonevalues={phonevalues}/>
+          </div>
+
+          <Create createModal={createModal} setCreateModal={setCreateModal} fetchPhones={fetchPhones} />
         </div>
+
+
+        
+
+        
+
+
 
 
       

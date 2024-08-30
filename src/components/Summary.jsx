@@ -33,9 +33,11 @@ function Summary({summaryData, setPhoneValues}) {
         
         
         setPhoneValues([outOfStockPhones, limitedPhones, InStockPhones])
-      }, [summaryData]);
+      }, [summaryData, setPhoneValues]);
 
-    
+      useEffect(() => {
+        setPhoneValues([outOfStockPhones, limitedPhones, InStockPhones]);
+    }, [outOfStockPhones, limitedPhones, InStockPhones, setPhoneValues]);
 
  
 

@@ -1,18 +1,29 @@
 import React, { Fragment, useState } from 'react'
 import Edit from '../assets/Edit.png'
 import Delete from '../assets/Trash.png'
+import EditModal from './EditModal'
+
 
 function Table({mydata, refetchData}) {
-  // const [tableData, setTableData] = useState([])
+ 
   const [message, setMessage] = useState('')
-
   const token = localStorage.getItem('authToken')
+  const [editModal, setEditModal] = useState(false)
+  const [product, setProduct] = useState({})
+
+
+  const handleEdit = (item) => {
+    setEditModal(true)
+    setProduct(item)
+  }
+
+
 
   
 
 
   const handleDelete = async(item) => {
-    console.log('Deleting item:', item.name , item.id);
+    
     try{
       const response = await fetch(`https://phone-inventory-system-api.onrender.com/phone/${item.id}`, {
         method: 'DELETE',
@@ -22,20 +33,21 @@ function Table({mydata, refetchData}) {
         }
       })
       if (response.ok){
-        setMessage(`${item.name} has been deleted successfully`)
+        setMessage(`Item has been deleted successfully`)
         refetchData();
+        
 
       }else{
         const errorData = await response.json()
         setMessage(`Something went wrong ${errorData.message}`)
       }
     }catch(error){
-      console.log('Error: ', error)
-      setMessage('An error occured. Please try again')
+    
+      setMessage('An error occured. Please try again', error)
 
     }
 
-    console.log(message)
+    
   }
 
 
@@ -58,7 +70,7 @@ function Table({mydata, refetchData}) {
                 <div style={{ gridColumn: 'span 1' }} className='mb-[16px]'>{item.price}</div>
                 <div style={{ gridColumn: 'span 1' }} className='mb-[16px]'>{item.quantity}</div>
                 <div style={{ gridColumn: 'span 1' }} className='mb-[16px]'>{item.color}</div>
-                <div style={{ gridColumn: 'span 1' }} className='mb-[16px]'>
+                <div style={{ gridColumn: 'span 1' }} className='mb-[16px] cursor-pointer' onClick={() => handleEdit(item)}>
                     <button className="px-2 py-1 rounded"><img src={Edit} alt='edit icon' /></button>
                 </div>
                 <div style={{ gridColumn: 'span 1' }} className='mb-[16px] cursor-pointer' onClick={() => handleDelete(item)}>
@@ -69,6 +81,11 @@ function Table({mydata, refetchData}) {
 
 
       })}
+
+
+      <EditModal product={product} editModal={editModal} setEditModal={setEditModal} refetchData={refetchData}/>
+ 
+      
 
 
      

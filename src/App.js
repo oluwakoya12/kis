@@ -10,6 +10,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+
       <Route  path="/login" element={<Login setLogin={setLoggedIn}/>} />
       <Route  path="/signup" element={<Signup/>} />
       <Route
