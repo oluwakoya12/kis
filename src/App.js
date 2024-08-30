@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Signup from './components/Signup'
 import Dashboard from './components/Dashboard'
 import Sidebar from './components/Sidebar'
+import NotFound from './components/NotFound'
 
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
         <Route  path="/dashboard" element={<Dashboard />} />
         
       </Route>
+
+      <Route  path="*" element={<NotFound />} />
+
       
     </Routes>
   )
