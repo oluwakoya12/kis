@@ -78,7 +78,7 @@ function Dashboard() {
 
               <h3 className='font-bold text-[20px] mt-[50px] text-[#222222CC]'>All phones</h3>
 
-              <Table mydata={phones} setMyData={setPhones} />
+              <Table mydata={phones} refetchData={fetchPhones} />
 
 
           </div>

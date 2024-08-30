@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import Edit from '../assets/Edit.png'
 import Delete from '../assets/Trash.png'
 
-function Table({mydata, setMyData}) {
+function Table({mydata, refetchData}) {
   // const [tableData, setTableData] = useState([])
   const [message, setMessage] = useState('')
 
@@ -11,10 +11,10 @@ function Table({mydata, setMyData}) {
   
 
 
-  const handleDelete = async(index, item) => {
-    console.log('Deleting item:', index, item.name);
+  const handleDelete = async(item) => {
+    console.log('Deleting item:', item.name , item.id);
     try{
-      const response = await fetch(`https://phone-inventory-system-api.onrender.com/phone/${index + 1}`, {
+      const response = await fetch(`https://phone-inventory-system-api.onrender.com/phone/${item.id}`, {
         method: 'DELETE',
         headers: {
           'accept': 'application/json',
@@ -22,8 +22,8 @@ function Table({mydata, setMyData}) {
         }
       })
       if (response.ok){
-        setMyData(prevData => prevData.filter((_, i) => i !== index));
         setMessage(`${item.name} has been deleted successfully`)
+        refetchData();
 
       }else{
         const errorData = await response.json()
@@ -50,9 +50,9 @@ function Table({mydata, setMyData}) {
       <div style={{ gridColumn: 'span 1' }} className="font-bold mb-[20px] ">Edit</div>
       <div style={{ gridColumn: 'span 1' }} className="font-bold mb-[20px] ">Delete</div>
 
-      {mydata.map((item, index) => {
+      {mydata.map((item) => {
         return(
-            <Fragment key={index}>
+            <Fragment key={item.id}>
                 <div style={{ gridColumn: 'span 2' }} className='mb-[16px]'>{item.name}</div>
                 <div style={{ gridColumn: 'span 1' }} className='mb-[16px]'>{item.brand}</div>
                 <div style={{ gridColumn: 'span 1' }} className='mb-[16px]'>{item.price}</div>
@@ -61,7 +61,7 @@ function Table({mydata, setMyData}) {
                 <div style={{ gridColumn: 'span 1' }} className='mb-[16px]'>
                     <button className="px-2 py-1 rounded"><img src={Edit} alt='edit icon' /></button>
                 </div>
-                <div style={{ gridColumn: 'span 1' }} className='mb-[16px] cursor-pointer' onClick={() => handleDelete(index,item)}>
+                <div style={{ gridColumn: 'span 1' }} className='mb-[16px] cursor-pointer' onClick={() => handleDelete(item)}>
                     <button className="px-2 py-1 rounded"><img src={Delete} alt="delete icon" /></button>
                 </div>
             </Fragment>
